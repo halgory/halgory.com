@@ -20,5 +20,6 @@
   "homepage": "https://github.com/gpastorhall/halgory.com#readme",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1"
-  }
+  },
+  "devDependencies": {}
 }
