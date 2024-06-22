@@ -131,4 +131,10 @@ dist
 
 # my ignored
 desktop.ini
-*.ps1\
+*.ps1
+.cache/
+.env
+cwebp.exe
+example.json
+
+
