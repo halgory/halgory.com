@@ -1,7 +1,7 @@
 {
   "name": "halgory.com",
   "version": "1.0.0",
-  "description": "Stolen from Zerebos. Built using [11ty](https://www.11ty.dev) and automatically deploys using GitHub Actions.",
+  "description": "Stolen from Zerebos. Built using [11ty](https://www.11ty.dev/) and automatically deploys using GitHub Actions.",
   "main": "index.js",
   "scripts": {
     "start": "eleventy --serve",
