@@ -1,61 +1,56 @@
-const { DateTime } = require("luxon")
-const pluginPWA = require("eleventy-plugin-pwa")
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
-const criticalCss = require("eleventy-critical-css");
-const util = require('util');
+const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
+const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
+const imageShortcode = require('./src/_11ty/shortcodes/image-shortcode');
+const markdownLibrary = require('./src/_11ty/libraries/markdown-library');
+const minifyHtml = require('./src/_11ty/utils/minify-html');
+const markdownFilter = require('./src/_11ty/filters/markdown-filter');
+const svgFilter = require('./src/_11ty/filters/svg-filter');
+const browserSyncConfig = require('./src/_11ty/utils/browser-sync-config');
+const { readableDateFilter, machineDateFilter } = require('./src/_11ty/filters/date-filters');
 
-
-module.exports = function(eleventyConfig) {
-
-  // Add a filter using the Config API
-  eleventyConfig.addFilter( "postDate", function(dateObj) {
-    return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED)    
-  });
-
-  // Add a filter for cleaning work url
-  eleventyConfig.addFilter( "urlClean", function(url) {
-    return url.split("//")[1]
-  });
-
-  //  check if isArticlePage
-  eleventyConfig.addFilter( "isArticlePage", function(url) {
-    return url.split("/").includes('blog')
-  });
-  
-  // debug filter 
-  eleventyConfig.addFilter('console', function(value) {
-      return util.inspect(value);
-  });
-
-  //add plugin
-  eleventyConfig.addPlugin(pluginPWA);
+module.exports = function (eleventyConfig) {
+  // Plugins
+  eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
-  // eleventyConfig.addPlugin(criticalCss);
 
-  // adding config for tags collection
-  // eleventyConfig.addCollection("tagsList", function(collectionApi) {
-  //     const tagsList = new Set();
-  //     collectionApi.getAll().map( item => {
-  //         if (item.data.tags) { // handle pages that don't have tags
-  //             item.data.tags.map( tag => tagsList.add(tag))
-  //         }
-  //     });
-  //     return tagsList;
-  // });
+  // Filters
+  eleventyConfig.addFilter('markdown', markdownFilter);
+  eleventyConfig.addFilter('readableDate', readableDateFilter);
+  eleventyConfig.addFilter('machineDate', machineDateFilter);
+  eleventyConfig.addFilter('svg', svgFilter);
 
+  // Shortcodes
+  eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
 
-  eleventyConfig.addWatchTarget("./src/sass/");
-  eleventyConfig.addPassthroughCopy("./src/css");
-  eleventyConfig.addPassthroughCopy("./src/js");
-  eleventyConfig.addPassthroughCopy("./src/img");
+  // Libraries
+  eleventyConfig.setLibrary('md', markdownLibrary);
+
+  // Merge data instead of overriding
+  eleventyConfig.setDataDeepMerge(true);
+
+  // Trigger a build when files in this directory change
+  eleventyConfig.addWatchTarget('./src/assets/scss/');
+
+  // Minify HTML output
+  eleventyConfig.addTransform('htmlmin', minifyHtml);
+
+  // Don't process folders with static assets
+  eleventyConfig.addPassthroughCopy('./src/favicon.ico');
   eleventyConfig.addPassthroughCopy('./src/admin');
-  eleventyConfig.addPassthroughCopy("./src/fonts");
+  eleventyConfig.addPassthroughCopy('./src/assets/img');
 
-  // You can return your Config object (optional).
+  // Allow Turbolinks to work in development mode
+  eleventyConfig.setBrowserSyncConfig(browserSyncConfig);
+
   return {
+    templateFormats: ['md', 'njk', 'html'],
+    markdownTemplateEngine: 'njk',
+    htmlTemplateEngine: 'njk',
+    dataTemplateEngine: 'njk',
+    passthroughFileCopy: true,
     dir: {
-      input: "src",
-      output:"public"
-    }
+      input: 'src',
+      layouts: "_layouts"
+    },
   };
 };

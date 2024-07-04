@@ -1,5 +1,0 @@
-{
-  "layout" : "base.njk",
-   "permalink" : "/tags/{{tagname}}",
-   "data": "tagsList"
-}
