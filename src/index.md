@@ -1,7 +1,6 @@
 ---
-title: "Hello World"
-layout: "base.njk"
-permalink: /index-njk.html
+title: "Index Page"
+permalink: "index.md"
 ---
 
 <!-- Your Nunjucks content -->
