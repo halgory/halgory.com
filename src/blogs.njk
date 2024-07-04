@@ -1,0 +1,80 @@
+---
+title: Blogs
+description: Blogs and Tips on Web Development, Design, and Productivity.
+layout: 'base.njk'
+pagination:
+  data: collections.post
+  size: 40
+  alias: posts
+---
+
+<main>
+  
+  <section class="blogs-hero">
+    
+    <h1 class="head_text long-shadow"> <span class="head_text rainbow">Blogs</span> and Tips</h1>
+
+  </section>
+
+  <section class="blog-list-section container">
+    <div class="blog-list-container ">
+
+      <!-- <div class="blog-card">
+        <h1 class="blog-title subhead_text">Best CSS Practices I Follow</h1>
+        <div class="blog-hashtags">
+          <a href="#">#css</a>
+          <a href="#">#javascript</a>
+          <a href="#">#html</a>
+          <a href="#">#design</a>
+          <a href="#">#alogriths</a>
+        </div>
+        <p class="blog-description">It  has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin wor...</p>
+        <p class="blog-length">2 minutes read ⌚</p>
+        <div class="blog-details">
+          <a href="/blog-single" class="blog-link">Read  Article >> </a>
+          <p class="blog-date">24th Jan 2021</p>
+        </div>
+      </div> -->
+
+      {%- for post in posts | reverse -%}
+
+          <a href="{{ post.url | url }}" class="blog-link">
+          <div class="blog-card">
+              <h1 class="blog-title subhead_text">{{ post.data.title}}</h1>
+            <div class="blog-hashtags">
+              {% set comma = joiner() %}
+              {% for tag in post.data.tags -%}
+                {% if tag !== 'post' %}
+                  {{ comma() }}
+                  <p href="#">#{{ tag }}</p>
+                {% endif %}
+              {%- endfor %}
+            </div>
+            <p class="blog-description">{{post.data.description}}</p>
+            {# <p class="blog-length"> {{ post.data.readTime  }} </p> #}
+            <div class="blog-details">
+              {# <a href="{{ post.url | url }}" class="blog-link">Read  Article >> </a> #}
+              <p class="blog-date">{{ post.data.date | postDate }}</p>
+            </div>
+          </div>
+          </a>
+
+     
+     {%- endfor -%}
+ 
+
+    {# <div class="pagination">
+      <a href=""><< Previous</a><a href="">Next >> </a> 
+    </div> #}
+
+    <div class="pagination">
+        <p>{% if pagination.href.previous %}<a href="{{ pagination.href.previous }}"><<</a>{% else %}<<{% endif %}</p>
+    {%- for pageEntry in pagination.pages %}
+          <p><a href="{{ pagination.hrefs[ loop.index0 ] }}"{% if page.url == pagination.hrefs[ loop.index0 ] %} aria-current="page"{% endif %}> {{ loop.index }}</a></p>
+    {%- endfor %}
+        <p>{% if pagination.href.next %}<a href="{{ pagination.href.next }}">>></a>{% else %}>>{% endif %}</p>
+    </div>
+
+    </section>
+
+</main>

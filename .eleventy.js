@@ -1,56 +1,61 @@
-module.exports = function (eleventyConfig) {
+const { DateTime } = require("luxon")
+const pluginPWA = require("eleventy-plugin-pwa")
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const criticalCss = require("eleventy-critical-css");
+const util = require('util');
 
-    // taken from https://github.com/rauenzi/Zerebos.com/blob/main/.eleventy.js
 
-    /*
+module.exports = function(eleventyConfig) {
 
-    // Folders to copy to output folder
-    eleventyConfig.addPassthroughCopy("assets");
-    eleventyConfig.addPassthroughCopy("src/scripts.js");
-    eleventyConfig.addPassthroughCopy("src/styles.css");
+  // Add a filter using the Config API
+  eleventyConfig.addFilter( "postDate", function(dateObj) {
+    return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED)    
+  });
 
-    eleventyConfig.addFilter("percentOf", (percent, of = 255) => {
-        percent = percent / 100;
-        return of * percent;
-    });
+  // Add a filter for cleaning work url
+  eleventyConfig.addFilter( "urlClean", function(url) {
+    return url.split("//")[1]
+  });
 
-    eleventyConfig.addFilter("subtractFrom", (amount, from = 255) => {
-        return from - amount;
-    });
+  //  check if isArticlePage
+  eleventyConfig.addFilter( "isArticlePage", function(url) {
+    return url.split("/").includes('blog')
+  });
+  
+  // debug filter 
+  eleventyConfig.addFilter('console', function(value) {
+      return util.inspect(value);
+  });
 
-    eleventyConfig.addFilter("getElementByKey", (array, key, value) => {
-        return array.find(e => e[key] === value);
-    });
+  //add plugin
+  eleventyConfig.addPlugin(pluginPWA);
+  eleventyConfig.addPlugin(syntaxHighlight);
+  // eleventyConfig.addPlugin(criticalCss);
 
-    eleventyConfig.addFilter("numLocale", (str) => {
-        return parseInt(str).toLocaleString();
-    });
+  // adding config for tags collection
+  // eleventyConfig.addCollection("tagsList", function(collectionApi) {
+  //     const tagsList = new Set();
+  //     collectionApi.getAll().map( item => {
+  //         if (item.data.tags) { // handle pages that don't have tags
+  //             item.data.tags.map( tag => tagsList.add(tag))
+  //         }
+  //     });
+  //     return tagsList;
+  // });
 
-    eleventyConfig.addFilter("stringify", (json, indent = 4) => {
-        return JSON.stringify(json, null, indent);
-    });
 
-    eleventyConfig.addFilter("date", (dateTime, format = "LL") => {
-        const formatter = Intl.DateTimeFormat(format);
-        return formatter.format(new Date(dateTime));
-    });
+  eleventyConfig.addWatchTarget("./src/sass/");
+  eleventyConfig.addPassthroughCopy("./src/css");
+  eleventyConfig.addPassthroughCopy("./src/js");
+  eleventyConfig.addPassthroughCopy("./src/img");
+  eleventyConfig.addPassthroughCopy('./src/admin');
+  eleventyConfig.addPassthroughCopy("./src/fonts");
 
-    function getPosts(collectionApi) {
-        return collectionApi.getFilteredByGlob("./src/projects/*.md");
+  // You can return your Config object (optional).
+  return {
+    dir: {
+      input: "src",
+      output:"public"
     }
-
-    eleventyConfig.addCollection("projects", function (collection) {
-        return getPosts(collection);
-    });
-*/
-    return {
-        /*
-        htmlTemplateEngine: "njk",
-        markdownTemplateEngine: "njk",
-        */
-        dir: {
-            input: "src",
-            output: "dist",
-        }
-    }
+  };
 };

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="default">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ '/css/style.css' | url }}" />
+  <link rel="shortcut icon" href="{{ '/img/icon.png' | url }}" type="image/x-icon">
+  <!-- Primary Meta Tags -->
+  <title>{{ title }}</title>
+  <meta name="title" content="{{ title }}">
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ site.url + page.url | url }}" />
+  <meta name="keywords" content="{{  tags if tags else title }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="{{ 'article' if tags else 'website' }}">
+  <meta property="og:url" content="{{ site.url + page.url | url }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:site_name" content="singhkunal2050" />
+
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@singhkunal2050">
+  <meta name="twitter:creator" content="@singhkunal2050">
+  <meta property="twitter:title" content="{{ title }}">
+  <meta property="twitter:description" content="{{ description }}">
+  <meta property="twitter:card" content="summary">
+  <meta name="twitter:widgets:new-embed-design" content="on">
+  <meta property="twitter:url" content="{{ site.url + page.url | url }}">
+  
+  <meta property="twitter:image" content="{% if page.url | isArticlePage %}{{site.url + image}}{% else %}{{site.icon}}{% endif %}">
+  <meta property="og:image" content="{% if page.url | isArticlePage %}{{site.url + image}}{% else %}{{site.icon}}{% endif %}">
+  <meta name="twitter:image:src" content="{% if page.url | isArticlePage %}{{site.url + image}}{% else %}{{site.icon}}{% endif %}">
+
+
+  <!-- identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BZ17964BK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-2BZ17964BK');
+  </script>
+
+  <!-- PWA -->
+  <script>
+    if ("serviceWorker" in navigator)
+      navigator.serviceWorker.register("/js/service-worker.js");
+  </script> 
+</head>
+
+<body>
+
+  <!-- navbar  -->
+
+  <nav>
+    <div class="container">
+
+      <div class="logo">
+        <a style="display: flex; align-items: center;" href={{"/" | url}}>
+          {# <img src={{ "/img/singhkunal2050.svg" | url }} alt="singhkunal2050"> #}
+          <p style="font-size:1.25rem;">singhkunal2050</p>
+        </a>
+      </div>
+
+      <div class="menu">
+        <p> <a href={{"/" | url}}> Home </a></p>
+        <!-- <p> <a href={{"/about" | url}}> About </a></p> -->
+        <p> <a href={{"/blogs" | url}}> Blogs </a></p>
+        <p> <a href={{"/projects" | url}}> Projects </a></p>
+        <p> <a href={{"/#contact" | url}}> Contact </a></p>
+      </div>
+
+      <div class="hamburger">
+        <div class="line line1"></div>
+        <div class="line line2"></div>
+        <div class="line line3"></div>
+      </div>
+
+    </div>
+
+  </nav>
