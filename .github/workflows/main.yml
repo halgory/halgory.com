@@ -32,6 +32,13 @@ jobs:
     - name: Verify Node.js Version
       run: node -v
 
+    - name: Create File
+      uses: finnp/create-file-action@2.0.0
+      env:
+        FILE_NAME: "dir/fileName.txt"
+        FILE_DATA: "file content"
+        
+        
     - name: Run build script
       run: npm run build
 
