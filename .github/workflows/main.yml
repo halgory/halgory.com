@@ -31,9 +31,6 @@ jobs:
 
     - name: Verify Node.js Version
       run: node -v
-      
-    - name: Create CNAME File
-      run: echo "halgory.com"
 
     - name: Run build script
       run: npm run build
