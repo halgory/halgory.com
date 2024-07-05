@@ -1,15 +1,12 @@
-name: Build and Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - main  # Adjust this if your default branch has a different name
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,24 +16,17 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Ensure this matches the version specified in your logs
-        cache: 'npm'
-    
-    - name: List contents of the docs directory
-      run: ls -la ./docs
+        node-version: '14'  # Ensure to use the version compatible with your project
 
-    
     - name: Install Dependencies
       run: npm install
 
-    - name: Verify Node.js Version
-      run: node -v 
-        
-    - name: Run build script
-      run: npm run build
+    - name: Build the site
+      run: npm run build  # Adjust according to your build command
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+        publish_dir: ./docs
+        publish_branch: 'main'
