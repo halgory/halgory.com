@@ -5,3 +5,4 @@ package_old.json
 _site/
 .git/
 .github/
+./*.exe
