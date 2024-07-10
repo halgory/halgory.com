@@ -22,11 +22,13 @@ jobs:
       run: npm install
 
     - name: Build the site
-      run: npm run build  # Adjust according to your build command
+      run: |
+        npm ci
+        npm run build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
-        publish_branch: 'main'
+        publish_dir: ./docs/
+        keep_files: true # setting this to true, makes the branches identical
