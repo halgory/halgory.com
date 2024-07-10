@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Build HalGORY
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # Adjust this if your default branch has a different name
 
 jobs:
-  build-and-deploy:
+  Build-HalGORY:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,19 +16,22 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Ensure to use the version compatible with your project
+        node-version: '18.17.0'  # Ensure to use the version compatible with your project
 
     - name: Install Dependencies
-      run: npm install
-
-    - name: Build the site
       run: |
         npm ci
-        npm run build
+        npm install
+
+    - name: Build the site
+      run: npm run build
+
+    - name: Generate CNAME
+      run: npm run generateCNAME
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/
-        keep_files: true # setting this to true, makes the branches identical
+        publish_branch: gh-pages

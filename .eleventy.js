@@ -39,7 +39,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('./src/admin');
   eleventyConfig.addPassthroughCopy('./src/assets/img');
 
-  // Allow Turbolinks to work in development mode
+  // Allow Turbolinks to work in development mode 
   eleventyConfig.setBrowserSyncConfig(browserSyncConfig);
 
   return {
@@ -50,7 +50,7 @@ module.exports = function (eleventyConfig) {
     passthroughFileCopy: true,
     dir: {
       input: 'src',
-	  output: './doc',
+	  output: './docs',
       layouts: '_layouts'
     },
   };
